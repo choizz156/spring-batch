@@ -24,18 +24,29 @@ public class Test {
 	@Bean
 	public Job testJob() {
 		return jobBuilderFactory.get("testJob")
-			.start(testStep())
+			.start(testStep1())
+			.next(testStep2())
 			.build();
 	}
 
-	public Step testStep() {
-		return stepBuilderFactory.get("testStep")
+	@Bean
+	public Step testStep1() {
+		return stepBuilderFactory.get("testStep1")
 			.tasklet((contribution, chunkContext) -> {
-				log.info("test batch");
+				log.warn("test batch1");
 				return RepeatStatus.FINISHED;
 			})
 			.build();
 	}
 
+	@Bean
+	public Step testStep2() {
+		return stepBuilderFactory.get("testStep2")
+			.tasklet((contribution, chunkContext) -> {
+				log.warn("test batch2");
+				return RepeatStatus.FINISHED;
+			})
+			.build();
+	}
 }
 
