@@ -2,6 +2,7 @@ package me.springbatch.config;
 
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -33,7 +34,11 @@ public class Test {
 	public Step testStep1() {
 		return stepBuilderFactory.get("testStep1")
 			.tasklet((contribution, chunkContext) -> {
-				log.warn("test batch1");
+				JobInstance jobInstance = contribution.getStepExecution().getJobExecution().getJobInstance();
+				log.info(String.valueOf(jobInstance.getId()));
+				log.info(jobInstance.getJobName());
+				log.info(String.valueOf(jobInstance.getInstanceId()));
+				log.info(String.valueOf(jobInstance.getVersion()));
 				return RepeatStatus.FINISHED;
 			})
 			.build();
