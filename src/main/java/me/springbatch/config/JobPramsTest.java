@@ -1,4 +1,4 @@
-package me.springbatch;
+package me.springbatch.config;
 
 import java.util.Date;
 

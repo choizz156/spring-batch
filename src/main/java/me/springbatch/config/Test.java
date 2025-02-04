@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.springbatch.tasklet.TaskLet1;
+import me.springbatch.tasklet.TaskLet2;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +28,8 @@ public class Test {
 
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
+	private final TaskLet1 taskLet1;
+	private final TaskLet2 taskLet2;
 
 	@Bean
 	public Job testJob() {
@@ -38,33 +42,14 @@ public class Test {
 	@Bean
 	public Step testStep1() {
 		return stepBuilderFactory.get("testStep1")
-			.tasklet((contribution, chunkContext) -> {
-				JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
-				Date date = jobParameters.getDate("date");
-				String name = jobParameters.getString("name");
-				Long long1 = jobParameters.getLong("long");
-
-				log.info("date = {}", date);
-				log.info("name = {}", name);
-				log.info("long1 = {}", long1);
-
-				Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
-				log.info("jobParameters1 = {}", jobParameters1);
-
-				JobExecution jobExecution = contribution.getStepExecution().getJobExecution();
-				log.info("jobExecution = {}", jobExecution);
-				return RepeatStatus.FINISHED;
-			})
+			.tasklet(taskLet1)
 			.build();
 	}
 
 	@Bean
 	public Step testStep2() {
 		return stepBuilderFactory.get("testStep2")
-			.tasklet((contribution, chunkContext) -> {
-				log.warn("test batch2");
-				return RepeatStatus.FINISHED;
-			})
+			.tasklet(taskLet2)
 			.build();
 	}
 }
