@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.springbatch.listener.JobListener;
 import me.springbatch.tasklet.TaskLet1;
 import me.springbatch.tasklet.TaskLet2;
 
@@ -30,12 +32,14 @@ public class Test {
 	private final StepBuilderFactory stepBuilderFactory;
 	private final TaskLet1 taskLet1;
 	private final TaskLet2 taskLet2;
+	private final JobListener jobListener;
 
 	@Bean
 	public Job testJob() {
 		return jobBuilderFactory.get("testJob")
 			.start(testStep1())
 			.next(testStep2())
+			.listener(jobListener)
 			.build();
 	}
 
