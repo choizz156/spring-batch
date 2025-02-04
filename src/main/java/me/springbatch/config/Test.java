@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
@@ -49,6 +50,9 @@ public class Test {
 
 				Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
 				log.info("jobParameters1 = {}", jobParameters1);
+
+				JobExecution jobExecution = contribution.getStepExecution().getJobExecution();
+				log.info("jobExecution = {}", jobExecution);
 				return RepeatStatus.FINISHED;
 			})
 			.build();
