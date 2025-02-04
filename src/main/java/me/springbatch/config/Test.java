@@ -1,8 +1,12 @@
 package me.springbatch.config;
 
 
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -34,11 +38,17 @@ public class Test {
 	public Step testStep1() {
 		return stepBuilderFactory.get("testStep1")
 			.tasklet((contribution, chunkContext) -> {
-				JobInstance jobInstance = contribution.getStepExecution().getJobExecution().getJobInstance();
-				log.info(String.valueOf(jobInstance.getId()));
-				log.info(jobInstance.getJobName());
-				log.info(String.valueOf(jobInstance.getInstanceId()));
-				log.info(String.valueOf(jobInstance.getVersion()));
+				JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
+				Date date = jobParameters.getDate("date");
+				String name = jobParameters.getString("name");
+				Long long1 = jobParameters.getLong("long");
+
+				log.info("date = {}", date);
+				log.info("name = {}", name);
+				log.info("long1 = {}", long1);
+
+				Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
+				log.info("jobParameters1 = {}", jobParameters1);
 				return RepeatStatus.FINISHED;
 			})
 			.build();
