@@ -14,6 +14,13 @@ public class TaskLet1 implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
 		log.info("teak1 = {}", "teak1");
+
+		log.info("stepContribution.getExitStatus().getExitCode() = {}", stepContribution.getExitStatus().getExitCode());
+		log.info("stepContribution.getExitStatus() = {}", stepContribution.getExitStatus().addExitDescription("testtest"));
+		log.info("stepContribution.getStepExecution().getStepName() = {}",
+			stepContribution.getStepExecution().getStepName());
+		log.info("stepContribution.getStepExecution().getJobExecution().getJobInstance().getJobName() = {}",
+			stepContribution.getStepExecution().getJobExecution().getJobInstance().getJobName());
 		return RepeatStatus.FINISHED;
 	}
 }
