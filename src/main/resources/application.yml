@@ -2,9 +2,10 @@ spring:
 
   batch:
     initialize-schema: always
-#    job:
-#      enabled: false
-
+    job:
+      names: ${job.name:NONE} # 어떤 잡을 실행할지 지정 x, 외부에서 알려줘야함.
+  #   names: testJob1 <- 이 job만 수행함.
+  #      enabled: false
 
   datasource:
     driver-class-name: org.h2.Driver
