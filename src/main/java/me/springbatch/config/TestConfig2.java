@@ -26,23 +26,23 @@ public class TestConfig2 {
 	private final JobListener jobListener;
 
 	@Bean
-	public Job testJob() {
+	public Job testJob2() {
 		return jobBuilderFactory.get("testJob2")
-			.start(testStep1())
-			.next(testStep2())
+			.start(testStep3())
+			.next(testStep4())
 			.listener(jobListener)
 			.build();
 	}
 
 	@Bean
-	public Step testStep1() {
+	public Step testStep3() {
 		return stepBuilderFactory.get("testStep3")
 			.tasklet(taskLet1)
 			.build();
 	}
 
 	@Bean
-	public Step testStep2() {
+	public Step testStep4() {
 		return stepBuilderFactory.get("testStep4")
 			.tasklet(taskLet2)
 			.build();
