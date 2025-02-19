@@ -51,7 +51,7 @@ public class SimpleJobConfig {
 		JdbcBatchItemWriter<Customer> writer = new JdbcBatchItemWriter<>();
 
 		writer.setDataSource(dataSource);
-		writer.setSql("insert into customer values(:id, :firstName, :lastName, :birthDate)");
+		writer.setSql("insert into customer2 values(:id, :firstName, :lastName, :birthDate)");
 		writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
 		writer.afterPropertiesSet();
 
